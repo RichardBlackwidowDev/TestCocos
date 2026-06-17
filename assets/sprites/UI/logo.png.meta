@@ -2,7 +2,7 @@
   "ver": "1.0.27",
   "importer": "image",
   "imported": true,
-  "uuid": "895b609f-cee1-42e5-9e31-235563494908",
+  "uuid": "59ee3b9f-381e-4674-aa85-97b49f9fbef7",
   "files": [
     ".json",
     ".png"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "895b609f-cee1-42e5-9e31-235563494908@6c48a",
-      "displayName": "skaterMaleA",
+      "uuid": "59ee3b9f-381e-4674-aa85-97b49f9fbef7@6c48a",
+      "displayName": "logo",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "895b609f-cee1-42e5-9e31-235563494908",
+        "imageUuidOrDatabaseUri": "59ee3b9f-381e-4674-aa85-97b49f9fbef7",
         "visible": false
       },
       "ver": "1.0.22",
@@ -37,6 +37,6 @@
     "hasAlpha": true,
     "type": "texture",
     "fixAlphaTransparencyArtifacts": false,
-    "redirect": "895b609f-cee1-42e5-9e31-235563494908@6c48a"
+    "redirect": "59ee3b9f-381e-4674-aa85-97b49f9fbef7@6c48a"
   }
 }

@@ -2,7 +2,7 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "097b631d-799d-4969-b1c9-bd95ff8b0e22",
+  "uuid": "88f1d2ef-0222-4a21-8c93-7350d4d89ba9",
   "files": [
     "__original-animation-0.cconb",
     "__original-animation-1.cconb"
@@ -10,7 +10,7 @@
   "subMetas": {
     "86934": {
       "importer": "gltf-scene",
-      "uuid": "097b631d-799d-4969-b1c9-bd95ff8b0e22@86934",
+      "uuid": "88f1d2ef-0222-4a21-8c93-7350d4d89ba9@86934",
       "displayName": "",
       "id": "86934",
       "name": "jump.prefab",
@@ -26,7 +26,7 @@
     },
     "adecc": {
       "importer": "gltf-animation",
-      "uuid": "097b631d-799d-4969-b1c9-bd95ff8b0e22@adecc",
+      "uuid": "88f1d2ef-0222-4a21-8c93-7350d4d89ba9@adecc",
       "displayName": "",
       "id": "adecc",
       "name": "Root|0.Targeting Pose.animation",
@@ -49,10 +49,10 @@
     },
     "e74cd": {
       "importer": "gltf-animation",
-      "uuid": "097b631d-799d-4969-b1c9-bd95ff8b0e22@e74cd",
+      "uuid": "88f1d2ef-0222-4a21-8c93-7350d4d89ba9@e74cd",
       "displayName": "",
       "id": "e74cd",
-      "name": "Root|Jump.animation",
+      "name": "Jump.animation",
       "userData": {
         "gltfIndex": 1,
         "wrapMode": 2,
@@ -97,7 +97,7 @@
         "fps": 30,
         "splits": [
           {
-            "name": "Root|Jump",
+            "name": "Jump",
             "from": 0,
             "to": 0.5,
             "wrapMode": 2,
@@ -130,7 +130,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "097b631d-799d-4969-b1c9-bd95ff8b0e22@86934"
+        "88f1d2ef-0222-4a21-8c93-7350d4d89ba9@86934"
       ]
     }
   }

@@ -2,12 +2,12 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "970e649b-1834-42e5-81d4-41afc1dcf4a4",
+  "uuid": "509558ae-b769-4248-ac99-50d9670ed669",
   "files": [],
   "subMetas": {
     "73e25": {
       "importer": "gltf-mesh",
-      "uuid": "970e649b-1834-42e5-81d4-41afc1dcf4a4@73e25",
+      "uuid": "509558ae-b769-4248-ac99-50d9670ed669@73e25",
       "displayName": "",
       "id": "73e25",
       "name": "characterMedium.mesh",
@@ -25,7 +25,7 @@
     },
     "438fe": {
       "importer": "gltf-skeleton",
-      "uuid": "970e649b-1834-42e5-81d4-41afc1dcf4a4@438fe",
+      "uuid": "509558ae-b769-4248-ac99-50d9670ed669@438fe",
       "displayName": "",
       "id": "438fe",
       "name": "UnnamedSkeleton.skeleton",
@@ -42,7 +42,7 @@
     },
     "dc44b": {
       "importer": "gltf-material",
-      "uuid": "970e649b-1834-42e5-81d4-41afc1dcf4a4@dc44b",
+      "uuid": "509558ae-b769-4248-ac99-50d9670ed669@dc44b",
       "displayName": "",
       "id": "dc44b",
       "name": "skin.material",
@@ -58,7 +58,7 @@
     },
     "934fc": {
       "importer": "gltf-scene",
-      "uuid": "970e649b-1834-42e5-81d4-41afc1dcf4a4@934fc",
+      "uuid": "509558ae-b769-4248-ac99-50d9670ed669@934fc",
       "displayName": "",
       "id": "934fc",
       "name": "characterMedium.prefab",
@@ -98,17 +98,17 @@
     },
     "assetFinder": {
       "meshes": [
-        "970e649b-1834-42e5-81d4-41afc1dcf4a4@73e25"
+        "509558ae-b769-4248-ac99-50d9670ed669@73e25"
       ],
       "skeletons": [
-        "970e649b-1834-42e5-81d4-41afc1dcf4a4@438fe"
+        "509558ae-b769-4248-ac99-50d9670ed669@438fe"
       ],
       "textures": [],
       "materials": [
-        "970e649b-1834-42e5-81d4-41afc1dcf4a4@dc44b"
+        "509558ae-b769-4248-ac99-50d9670ed669@dc44b"
       ],
       "scenes": [
-        "970e649b-1834-42e5-81d4-41afc1dcf4a4@934fc"
+        "509558ae-b769-4248-ac99-50d9670ed669@934fc"
       ]
     }
   }

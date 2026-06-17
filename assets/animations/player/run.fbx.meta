@@ -2,7 +2,7 @@
   "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
-  "uuid": "26932f0c-104a-46e1-b48c-55294200a027",
+  "uuid": "cbe39a2a-a897-4cc4-8fad-5e94894e60aa",
   "files": [
     "__original-animation-0.cconb",
     "__original-animation-1.cconb"
@@ -10,10 +10,10 @@
   "subMetas": {
     "31163": {
       "importer": "gltf-animation",
-      "uuid": "26932f0c-104a-46e1-b48c-55294200a027@31163",
+      "uuid": "cbe39a2a-a897-4cc4-8fad-5e94894e60aa@31163",
       "displayName": "",
       "id": "31163",
-      "name": "Root|Run.animation",
+      "name": "Run.animation",
       "userData": {
         "gltfIndex": 1,
         "wrapMode": 2,
@@ -33,7 +33,7 @@
     },
     "adecc": {
       "importer": "gltf-animation",
-      "uuid": "26932f0c-104a-46e1-b48c-55294200a027@adecc",
+      "uuid": "cbe39a2a-a897-4cc4-8fad-5e94894e60aa@adecc",
       "displayName": "",
       "id": "adecc",
       "name": "Root|0.Targeting Pose.animation",
@@ -56,7 +56,7 @@
     },
     "1471e": {
       "importer": "gltf-scene",
-      "uuid": "26932f0c-104a-46e1-b48c-55294200a027@1471e",
+      "uuid": "cbe39a2a-a897-4cc4-8fad-5e94894e60aa@1471e",
       "displayName": "",
       "id": "1471e",
       "name": "run.prefab",
@@ -97,7 +97,7 @@
         "fps": 30,
         "splits": [
           {
-            "name": "Root|Run",
+            "name": "Run",
             "from": 0,
             "to": 0.6666666865348816,
             "wrapMode": 2,
@@ -130,7 +130,7 @@
       "textures": [],
       "materials": [],
       "scenes": [
-        "26932f0c-104a-46e1-b48c-55294200a027@1471e"
+        "cbe39a2a-a897-4cc4-8fad-5e94894e60aa@1471e"
       ]
     }
   }
