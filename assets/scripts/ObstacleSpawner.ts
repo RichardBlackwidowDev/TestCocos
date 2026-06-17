@@ -1,4 +1,4 @@
-import { _decorator, Component, Prefab, Node, instantiate, Vec3, math } from 'cc';
+import { _decorator, Component, Prefab, Node, instantiate, Vec3, math, screen } from 'cc';
 import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
 
@@ -26,6 +26,7 @@ export class ObstacleSpawner extends Component {
             return;
         }
 
+        this.adjustToOrientation();
         this.createPool();
         this.activateNextRock();
         this.delay = this.getRandomDelay();
@@ -37,6 +38,19 @@ export class ObstacleSpawner extends Component {
         if (GameManager.Instance?.isGameOver) return;
 
         this.updateSpawnTimer(deltaTime);
+    }
+
+    // ─── Orientation ──────────────────────────────────────
+
+    private adjustToOrientation() {
+        const w = screen.windowSize.width / screen.devicePixelRatio;
+        const h = screen.windowSize.height / screen.devicePixelRatio;
+
+        if (w > h) {
+            this.spawnZ = 20;
+            this.despawnZ = -50;
+            this.poolSize = 6;
+        }
     }
 
     // ─── Pool management ────────────────────────────────
