@@ -1,71 +1,93 @@
-import { _decorator, Component, Animation, input, Input, Vec3, Collider, ITriggerEvent, RigidBody } from 'cc';
+import { _decorator, Component, Animation, input, Input, Vec3, Collider, ITriggerEvent, RigidBody, tween } from 'cc';
 import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerController')
-export class PlayerController extends Component 
-{
+export class PlayerController extends Component {
     @property jumpHeight: number = 7.5;
 
     private collider: Collider | null = null;
     private rb: RigidBody | null = null;
     private anim: Animation | null = null;
-    private tempVec: Vec3 = new Vec3();
 
-    public start() 
-    {
+    private isDead: boolean = false;
+
+    public start() {
         this.collider = this.getComponent(Collider);
         this.rb = this.getComponent(RigidBody);
         this.anim = this.getComponentInChildren(Animation);
 
         if (this.anim != null)
             this.anim.play("Run");
-        
-        if (this.collider != null)
-        {
-            this.collider.on("onTriggerEnter", this.onRockHit, this);
-            this.collider.on('onCollisionEnter', this.onGroundHit, this);
-        }
-        
+
+        this.setupCollisionHandlers();
         input.on(Input.EventType.TOUCH_START, this.onTouch, this);
     }
 
-    public onDestroy()
-    {
+    public onDestroy() {
         input.off(Input.EventType.TOUCH_START, this.onTouch, this);
-        
-        if (this.collider != null)
-        {
+
+        if (this.collider != null) {
             this.collider.off("onTriggerEnter", this.onRockHit, this);
             this.collider.off('onCollisionEnter', this.onGroundHit, this);
         }
     }
-    
-    private onTouch()
-    {
-        if (this.rb == null) return;
 
-        this.rb.getLinearVelocity(this.tempVec);
-        if (this.tempVec.y > 0.1 || this.tempVec.y < -0.1) return;
+    private setupCollisionHandlers() {
+        if (this.collider == null) return;
 
-        this.tempVec.set(0, this.jumpHeight, 0);
-        this.rb.setLinearVelocity(this.tempVec);
+        this.collider.on("onTriggerEnter", this.onRockHit, this);
+        this.collider.on('onCollisionEnter', this.onGroundHit, this);
+    }
+
+    private isGrounded(): boolean {
+        const vel = new Vec3();
+        this.rb.getLinearVelocity(vel);
+        return vel.y > -0.1 && vel.y < 0.1;
+    }
+
+    private fall() {
+        this.isDead = true;
+
+        if (this.collider != null)
+            this.collider.enabled = false;
+
+        this.anim?.play("Idle");
+
+        if (this.rb) {
+            this.rb.useGravity = true;
+            this.rb.setLinearVelocity(new Vec3(0, 5, -3));
+        }
+
+        this.scheduleOnce(() => {
+            tween(this.node)
+                .to(0.4, { eulerAngles: new Vec3(90, 0, 0) })
+                .start();
+        }, 0.3);
+
+        this.scheduleOnce(() => {
+            GameManager.Instance?.onCollision();
+        }, 1);
+    }
+
+    private onTouch() {
+        if (this.isDead || GameManager.Instance?.isGameOver) return;
+        if (!this.isGrounded()) return;
+
+        this.rb.setLinearVelocity(new Vec3(0, this.jumpHeight, 0));
 
         if (this.anim)
             this.anim.play("Jump")
 
-        if (GameManager.Instance)
-            GameManager.Instance.onJump();
+        GameManager.Instance.onJump();
     }
 
-    private onRockHit(event: ITriggerEvent)
-    {
-        if (GameManager.Instance == null) return
-        GameManager.Instance.onCollision();
+    private onRockHit(event: ITriggerEvent) {
+        if (this.isDead) return;
+        this.fall();
     }
 
-    private onGroundHit()
-    {
+    private onGroundHit() {
         if (this.anim == null) return
         this.anim.play("Run");
     }
