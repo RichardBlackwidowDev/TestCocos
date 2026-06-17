@@ -1,32 +1,31 @@
-import { _decorator, Component, Animation, input, Input, Vec3, Collider, ITriggerEvent } from 'cc';
+import { _decorator, Component, Animation, input, Input, Vec3, Collider, ITriggerEvent, RigidBody } from 'cc';
 import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerController')
 export class PlayerController extends Component 
 {
-    @property jumpHeight: number = 3;
-    @property jumpDuration: number = 0.5;
-    @property speed: number = 5;
+    @property jumpHeight: number = 7.5;
 
     private collider: Collider | null = null;
+    private rb: RigidBody | null = null;
     private anim: Animation | null = null;
-    private isJumping: boolean = false;
-    private jumpTime: number = 0;
-    private startY: number = 0;
     private tempVec: Vec3 = new Vec3();
 
     public start() 
     {
         this.collider = this.getComponent(Collider);
+        this.rb = this.getComponent(RigidBody);
         this.anim = this.getComponentInChildren(Animation);
-        this.startY = this.node.position.y;
 
         if (this.anim != null)
-            this.anim.play("run");
+            this.anim.play("Run");
         
         if (this.collider != null)
+        {
             this.collider.on("onTriggerEnter", this.onRockHit, this);
+            this.collider.on('onCollisionEnter', this.onGroundHit, this);
+        }
         
         input.on(Input.EventType.TOUCH_START, this.onTouch, this);
     }
@@ -36,38 +35,27 @@ export class PlayerController extends Component
         input.off(Input.EventType.TOUCH_START, this.onTouch, this);
         
         if (this.collider != null)
-            this.collider.off("onTriggerEnter", this.onRockHit, this);
-    }
-
-    public update(deltaTime: number) 
-    {
-        if (!this.isJumping) return;
-
-        this.jumpTime += deltaTime;
-        const t = this.jumpTime / this.jumpDuration;
-
-        if (t >= 1)
         {
-            this.land();
-            return;
+            this.collider.off("onTriggerEnter", this.onRockHit, this);
+            this.collider.off('onCollisionEnter', this.onGroundHit, this);
         }
-
-        const y = this.startY + this.jumpHeight * 4 * t * (1 - t);
-        this.tempVec.set(0, y, 0);
-        this.node.setPosition(this.tempVec);
     }
     
     private onTouch()
     {
-        if (this.isJumping) return;
+        if (this.rb == null) return;
 
-        this.isJumping = true;
-        this.jumpTime = 0;
+        this.rb.getLinearVelocity(this.tempVec);
+        if (this.tempVec.y > 0.1 || this.tempVec.y < -0.1) return;
+
+        this.tempVec.set(0, this.jumpHeight, 0);
+        this.rb.setLinearVelocity(this.tempVec);
 
         if (this.anim)
-        {
             this.anim.play("Jump")
-        }
+
+        if (GameManager.Instance)
+            GameManager.Instance.onJump();
     }
 
     private onRockHit(event: ITriggerEvent)
@@ -76,16 +64,10 @@ export class PlayerController extends Component
         GameManager.Instance.onCollision();
     }
 
-    private land()
+    private onGroundHit()
     {
-        this.isJumping = false;
-        this.tempVec.set(0, this.startY, 0);
-        this.node.setPosition(this.tempVec);
-
-        if (this.anim)
-        {
-            this.anim.play("run");
-        }
+        if (this.anim == null) return
+        this.anim.play("Run");
     }
 }
 

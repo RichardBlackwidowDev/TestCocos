@@ -8,8 +8,8 @@ export class ObstacleSpawner extends Component
     @property poolSize: number = 3;
     @property spawnZ: number = 10;
     @property despawnZ: number = -10;
-    @property minDelay: number = 1.5;
-    @property maxDelay: number = 3;
+    @property minDelay: number = 0.8;
+    @property maxDelay: number = 2;
     @property speed: number = 5;
 
     private pool: Node[] = [];
@@ -27,6 +27,7 @@ export class ObstacleSpawner extends Component
         }
 
         this.createPool();
+        this.activateNextRock();
         this.delay = this.getRandomDelay();
     }
 

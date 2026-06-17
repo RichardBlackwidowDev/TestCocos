@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Collider, ITriggerEvent } from 'cc';
+import { _decorator, Component, director, Collider, ITriggerEvent, sys, ResolutionPolicy, view } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -12,6 +12,16 @@ export class GameManager extends Component
 
     public start()
     {
+        const size = view.getFrameSize();
+        const w = size.width;
+        const h = size.height;
+
+        if (w > h)
+            view.setDesignResolutionSize(1920, 1080, ResolutionPolicy.FIXED_WIDTH);
+        else
+            view.setDesignResolutionSize(1080, 1920, ResolutionPolicy.FIXED_HEIGHT);
+
+    
         if (GameManager.Instance == null)
             GameManager.Instance = this;
         else

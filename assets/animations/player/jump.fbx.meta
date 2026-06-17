@@ -32,7 +32,7 @@
       "name": "Root|0.Targeting Pose.animation",
       "userData": {
         "gltfIndex": 0,
-        "wrapMode": 2,
+        "wrapMode": 1,
         "sample": 30,
         "span": {
           "from": 0,
@@ -86,7 +86,7 @@
             "name": "Root|0.Targeting Pose",
             "from": 0,
             "to": 0.0416666679084301,
-            "wrapMode": 2,
+            "wrapMode": 1,
             "previousId": "adecc"
           }
         ]
