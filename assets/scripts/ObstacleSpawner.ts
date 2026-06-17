@@ -16,6 +16,9 @@ export class ObstacleSpawner extends Component {
     private rockIndex: number = 0;
     private timer: number = 0;
     private delay: number = 0;
+    private tempVec: Vec3 = new Vec3();
+
+    // ─── Lifecycle ───────────────────────────────────────
 
     public start() {
         if (this.rockPrefab == null) {
@@ -36,6 +39,8 @@ export class ObstacleSpawner extends Component {
         this.updateSpawnTimer(deltaTime);
     }
 
+    // ─── Pool management ────────────────────────────────
+
     private createPool() {
         for (let i = 0; i < this.poolSize; i++) {
             const rock = instantiate(this.rockPrefab);
@@ -45,18 +50,30 @@ export class ObstacleSpawner extends Component {
         }
     }
 
+    public resetAll() {
+        for (const rock of this.pool)
+            rock.active = false;
+
+        this.timer = 0;
+        this.rockIndex = 0;
+    }
+
+    // ─── Movement ────────────────────────────────────────
+
     private moveRocks(deltaTime: number) {
         for (const rock of this.pool) {
             if (rock.active == false) continue;
 
-            const pos = rock.position.clone();
-            pos.z -= this.speed * deltaTime;
-            rock.position = pos;
+            rock.getPosition(this.tempVec);
+            this.tempVec.z -= this.speed * deltaTime;
+            rock.setPosition(this.tempVec);
 
-            if (pos.z <= this.despawnZ)
+            if (this.tempVec.z <= this.despawnZ)
                 rock.active = false;
         }
     }
+
+    // ─── Spawning ────────────────────────────────────────
 
     private updateSpawnTimer(deltaTime: number) {
         this.timer += deltaTime;
@@ -74,14 +91,6 @@ export class ObstacleSpawner extends Component {
         rock.setPosition(new Vec3(0, 0, this.spawnZ));
         rock.active = true;
         this.rockIndex = (this.rockIndex + 1) % this.poolSize;
-    }
-
-    public resetAll() {
-        for (const rock of this.pool)
-            rock.active = false;
-
-        this.timer = 0;
-        this.rockIndex = 0;
     }
 
     private getRandomDelay(): number {

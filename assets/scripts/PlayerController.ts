@@ -11,6 +11,9 @@ export class PlayerController extends Component {
     private anim: Animation | null = null;
 
     private isDead: boolean = false;
+    private tempVec: Vec3 = new Vec3();
+
+    // ─── Lifecycle ───────────────────────────────────────
 
     public start() {
         this.collider = this.getComponent(Collider);
@@ -33,6 +36,8 @@ export class PlayerController extends Component {
         }
     }
 
+    // ─── Init helpers ────────────────────────────────────
+
     private setupCollisionHandlers() {
         if (this.collider == null) return;
 
@@ -40,46 +45,25 @@ export class PlayerController extends Component {
         this.collider.on('onCollisionEnter', this.onGroundHit, this);
     }
 
+    // ─── Gameplay ────────────────────────────────────────
+
     private isGrounded(): boolean {
-        const vel = new Vec3();
-        this.rb.getLinearVelocity(vel);
-        return vel.y > -0.1 && vel.y < 0.1;
-    }
-
-    private fall() {
-        this.isDead = true;
-
-        if (this.collider != null)
-            this.collider.enabled = false;
-
-        this.anim?.play("Idle");
-
-        if (this.rb) {
-            this.rb.useGravity = true;
-            this.rb.setLinearVelocity(new Vec3(0, 5, -3));
-        }
-
-        this.scheduleOnce(() => {
-            tween(this.node)
-                .to(0.4, { eulerAngles: new Vec3(90, 0, 0) })
-                .start();
-        }, 0.3);
-
-        this.scheduleOnce(() => {
-            GameManager.Instance?.onCollision();
-        }, 1);
+        this.rb.getLinearVelocity(this.tempVec);
+        return this.tempVec.y > -0.1 && this.tempVec.y < 0.1;
     }
 
     private onTouch() {
         if (this.isDead || GameManager.Instance?.isGameOver) return;
         if (!this.isGrounded()) return;
 
-        this.rb.setLinearVelocity(new Vec3(0, this.jumpHeight, 0));
+        this.tempVec.set(0, this.jumpHeight, 0);
+        this.rb.setLinearVelocity(this.tempVec);
 
         if (this.anim)
             this.anim.play("Jump")
 
-        GameManager.Instance.onJump();
+        if (GameManager.Instance != null)
+            GameManager.Instance.onJump();
     }
 
     private onRockHit(event: ITriggerEvent) {
@@ -90,6 +74,38 @@ export class PlayerController extends Component {
     private onGroundHit() {
         if (this.anim == null) return
         this.anim.play("Run");
+    }
+
+    // ─── Death ───────────────────────────────────────────
+
+    private fall() {
+        this.isDead = true;
+        this.disablePlayer();
+        this.applyFallImpulse();
+
+        this.scheduleOnce(() => this.playFallAnimation(), 0.3);
+        this.scheduleOnce(() => GameManager.Instance?.onCollision(), 1);
+    }
+
+    private disablePlayer() {
+        if (this.collider != null)
+            this.collider.enabled = false;
+
+        this.anim?.play("Idle");
+    }
+
+    private applyFallImpulse() {
+        if (this.rb == null) return;
+
+        this.rb.useGravity = true;
+        this.tempVec.set(0, 5, -3);
+        this.rb.setLinearVelocity(this.tempVec);
+    }
+
+    private playFallAnimation() {
+        tween(this.node)
+            .to(0.4, { eulerAngles: new Vec3(90, 0, 0) })
+            .start();
     }
 }
 

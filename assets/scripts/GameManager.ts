@@ -9,6 +9,8 @@ export class GameManager extends Component {
     private jumpCount: number = 0;
     private collisionCount: number = 0;
 
+    // ─── Lifecycle ───────────────────────────────────────
+
     public start() {
         this.setupDesignResolution();
         this.setupCanvases();
@@ -18,6 +20,8 @@ export class GameManager extends Component {
         else
             this.destroy();
     }
+
+    // ─── Init helpers ────────────────────────────────────
 
     private setupDesignResolution() {
         const size = screen.windowSize;
@@ -32,6 +36,8 @@ export class GameManager extends Component {
         const final = director.getScene()?.getChildByName("FinalScreen");
         if (final) final.active = false;
     }
+
+    // ─── Events ──────────────────────────────────────────
 
     public onJump() {
         if (this.isGameOver) return;
@@ -57,9 +63,7 @@ export class GameManager extends Component {
         }
     }
 
-    private restartGame() {
-        director.loadScene("GameScene");
-    }
+    // ─── Results ─────────────────────────────────────────
 
     private showFinalScreen() {
         this.isGameOver = true;
@@ -73,5 +77,9 @@ export class GameManager extends Component {
 
         const final = scene.getChildByName("FinalScreen");
         if (final) final.active = true;
+    }
+
+    private restartGame() {
+        director.loadScene("GameScene");
     }
 }
