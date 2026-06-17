@@ -1,4 +1,4 @@
-import { _decorator, Component, director, ResolutionPolicy, screen, view, Node } from 'cc';
+import { _decorator, Component, director, ResolutionPolicy, view, Node, Canvas } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -24,12 +24,18 @@ export class GameManager extends Component {
     // ─── Init helpers ────────────────────────────────────
 
     private setupDesignResolution() {
-        const size = screen.windowSize;
-
-        if (size.width > size.height)
+        if (window.innerWidth > window.innerHeight)
             view.setDesignResolutionSize(1920, 1080, ResolutionPolicy.FIXED_WIDTH);
         else
             view.setDesignResolutionSize(1080, 1920, ResolutionPolicy.FIXED_HEIGHT);
+
+        const canvases = director.getScene()?.getComponentsInChildren(Canvas);
+        if (canvases) for (const c of canvases) {
+            if (c.alignCanvasWithScreen) {
+                c.alignCanvasWithScreen = false;
+                c.alignCanvasWithScreen = true;
+            }
+        }
     }
 
     private setupCanvases() {
