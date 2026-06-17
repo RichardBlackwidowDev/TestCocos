@@ -90,8 +90,6 @@ export class PlayerController extends Component {
     private disablePlayer() {
         if (this.collider != null)
             this.collider.enabled = false;
-
-        this.anim?.play("Idle");
     }
 
     private applyFallImpulse() {
