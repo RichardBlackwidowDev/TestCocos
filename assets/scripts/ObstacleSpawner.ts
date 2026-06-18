@@ -70,6 +70,10 @@ export class ObstacleSpawner extends Component {
         }
     }
 
+    public stop() {
+        this.enabled = false;
+    }
+
     public resetAll() {
         for (const rock of this.pool)
             rock.active = false;

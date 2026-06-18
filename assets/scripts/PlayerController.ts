@@ -1,4 +1,5 @@
-import { _decorator, Component, Animation, input, Input, Vec3, Collider, ITriggerEvent, RigidBody, tween } from 'cc';
+import { _decorator, Component, Animation, input, Input, Vec3, Collider, ITriggerEvent, RigidBody, tween, director } from 'cc';
+import { ObstacleSpawner } from './ObstacleSpawner';
 import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
 
@@ -12,6 +13,7 @@ export class PlayerController extends Component {
 
     private isDead: boolean = false;
     private tempVec: Vec3 = new Vec3();
+    private spawner: ObstacleSpawner | null = null;
 
     // ─── Lifecycle ───────────────────────────────────────
 
@@ -23,6 +25,7 @@ export class PlayerController extends Component {
         if (this.anim != null)
             this.anim.play("Run");
 
+        this.spawner = director.getScene()?.getComponentInChildren(ObstacleSpawner);
         this.setupCollisionHandlers();
         input.on(Input.EventType.TOUCH_START, this.onTouch, this);
     }
@@ -85,7 +88,10 @@ export class PlayerController extends Component {
         this.applyFallImpulse();
 
         this.scheduleOnce(() => this.playFallAnimation(), 0.3);
-        this.scheduleOnce(() => GameManager.Instance?.onCollision(), 1);
+        this.scheduleOnce(() => {
+            this.spawner?.stop();
+            GameManager.Instance?.onCollision();
+        }, 1);
     }
 
     private disablePlayer() {
