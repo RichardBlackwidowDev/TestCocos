@@ -49,7 +49,7 @@ export class ObstacleSpawner extends Component {
         if (w > h) {
             this.spawnZ = 20;
             this.despawnZ = -50;
-            this.poolSize = 6;
+            this.poolSize = 5;
         }
     }
 
