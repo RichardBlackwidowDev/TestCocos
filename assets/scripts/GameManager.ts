@@ -8,6 +8,7 @@ export class GameManager extends Component {
 
     private jumpCount: number = 0;
     private collisionCount: number = 0;
+    private pendingFinish: boolean = false;
 
     // ─── Lifecycle ───────────────────────────────────────
 
@@ -52,6 +53,11 @@ export class GameManager extends Component {
         console.log("Jump", this.jumpCount, "/ 5");
 
         if (this.jumpCount >= 5)
+            this.pendingFinish = true;
+    }
+
+    public onLanded() {
+        if (this.pendingFinish)
             this.showFinalScreen();
     }
 
@@ -61,7 +67,7 @@ export class GameManager extends Component {
         this.collisionCount++;
         console.log("Collision", this.collisionCount);
 
-        if (this.collisionCount >= 2) {
+        if (this.collisionCount >= 2 || this.pendingFinish) {
             this.showFinalScreen();
         }
         else {

@@ -17,6 +17,8 @@ export class ObstacleSpawner extends Component {
     private timer: number = 0;
     private delay: number = 0;
     private tempVec: Vec3 = new Vec3();
+    private spawnedCount: number = 0;
+    private maxSpawned: number = 5;
 
     // ─── Lifecycle ───────────────────────────────────────
 
@@ -29,6 +31,7 @@ export class ObstacleSpawner extends Component {
         this.adjustToOrientation();
         this.createPool();
         this.activateNextRock();
+        this.spawnedCount = 1;
         this.delay = this.getRandomDelay();
     }
 
@@ -47,9 +50,12 @@ export class ObstacleSpawner extends Component {
         const h = screen.windowSize.height / screen.devicePixelRatio;
 
         if (w > h) {
-            this.spawnZ = 20;
+            this.spawnZ = 10;
             this.despawnZ = -50;
             this.poolSize = 5;
+            this.speed = 5;
+            this.minDelay = 1.5;
+            this.maxDelay = 2.5;
         }
     }
 
@@ -93,11 +99,11 @@ export class ObstacleSpawner extends Component {
         this.timer += deltaTime;
 
         if (this.timer < this.delay) return;
+        if (this.spawnedCount >= this.maxSpawned) return;
 
         this.activateNextRock();
         this.timer = 0;
         this.delay = this.getRandomDelay();
-
     }
 
     private activateNextRock() {
@@ -105,6 +111,7 @@ export class ObstacleSpawner extends Component {
         rock.setPosition(new Vec3(0, 0, this.spawnZ));
         rock.active = true;
         this.rockIndex = (this.rockIndex + 1) % this.poolSize;
+        this.spawnedCount++;
     }
 
     private getRandomDelay(): number {

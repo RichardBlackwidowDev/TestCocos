@@ -62,8 +62,7 @@ export class PlayerController extends Component {
         if (this.anim)
             this.anim.play("Jump")
 
-        if (GameManager.Instance != null)
-            GameManager.Instance.onJump();
+        GameManager.Instance?.onJump();
     }
 
     private onRockHit(event: ITriggerEvent) {
@@ -74,6 +73,8 @@ export class PlayerController extends Component {
     private onGroundHit() {
         if (this.anim == null) return
         this.anim.play("Run");
+
+        GameManager.Instance?.onLanded();
     }
 
     // ─── Death ───────────────────────────────────────────
